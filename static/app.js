@@ -60,8 +60,26 @@ class BoggleGame {
         }
     }
 
+    showTimer(){
+        $('timer', this.board).text(this.secs);
+    }
 
 
+    async tick(){
+        //handle 1 second time change
+        this.secs -= 1;
+        this.showTimer();
+
+        if (this.secs === 0){
+            clearInterval(this.timer)
+            await this.scoreGame();
+        }
+    }
+
+    async scoreGame(){
+        $('.add-word', this.board).hide();
+        const res = await axios.post('/post_score')
+    }
 
 
 
