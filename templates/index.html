@@ -9,8 +9,9 @@
 <body>
     <section id='gameboard'>
         <h1>Boggle Game</h1>
-        <p>Score:<b class='score'></b></p>
-        <p>Time Remaining:<b class='timer'></b></p>
+        <p>HighScore: {{ highscore }} in {{ nplays }} plays.</p>
+        <p>Score: <b class='score'></b></p>
+        <p>Time Remaining: <b class='timer'></b></p>
         <table id='game'>
             <tbody>
                 {% for row in board %}
@@ -24,7 +25,7 @@
         </table>
         <form method='POST' class='add-word'>
             <label for='word'>Type Your Word:</label>
-            <input type='text' name='word'>
+            <input type='text' name='word' id='word'>
             <button>Submit</button>
         </form>
         <p class='msg'></p>
@@ -33,7 +34,7 @@
     </section>
     <script src="http://unpkg.com/jquery"></script>
     <script src="https://unpkg.com/axios@0.19.0/dist/axios.js"></script>
-    <script src="/static/boggle.js"></script>
+    <script src="/static/app.js"></script>
     <script>
         let game = new BoggleGame('boggle', 60)
     </script>

@@ -1,9 +1,40 @@
 
 
-
-
-
-
-tbody {
-    font-size: 50px;
+.board {
+    border: solid 1px black;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 200%;
 }
+  
+.board td {
+    text-align: center;
+    width: 1.5em;
+    height: 1.5em;
+}
+  
+.msg {
+    padding: 1em;
+}
+  
+.msg.ok {
+    color: white;
+    background-color: green;
+}
+  
+.msg.err {
+    color: white;
+    background-color: tomato;
+}
+  
+
+td {
+    font-size: 80px;
+    padding: 25px;
+    margin: 10px;
+}
+
+.final-seconds {
+    color: red;
+}
+  

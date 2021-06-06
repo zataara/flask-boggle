@@ -21,47 +21,47 @@ class BoggleGame {
         $('.score', this.board).text(this.score)
     }
 
-    showMessage(msg, cls){
-        //show a message and add a class based upon user input parameters
-        $('.msg', this.board)
-            .text(msg)
-            .removeClass()
-            .addClass(`msg ${cls}`)
+    showMessage(msg, cls) {
+        $(".msg", this.board)
+        .text(msg)
+        .removeClass()
+        .addClass(`msg ${cls}`);
     }
-
+    
     async handleSubmit(evt){
         evt.preventDefault();
-        const word = $('.word', this.board).val();
+        const $word = $("#word", this.board);
+        
+        let word = $word.val();
             //grab value of form input
-
+        
         if(!word){
             //check to make sure text has been entered
             return
         }
-
-        if(this.word.has(word)){
+        
+        if(this.words.has(word)){
             //check words already entered
             this.showMessage('Already found word', 'err')
             return
         }
-
-        const res = await axios.get('/check-word', {params: {word: word }});
-
-        if (res.data.result === 'not-word'){
-            this.showMessage(`Nice try! ${word} is not a word!`, 'err');
-        } else if (res.data.result === 'not-on-board'){
-            this.showMessage(`${word} is not on the game board!`, 'err');
+        
+        const res = await axios.get("/check-word", { params: { word: word }});
+        if (res.data.result === "not-word") {
+            this.showMessage(`${word} is not a valid English word`, "err");
+        } else if (res.data.result === "not-on-board") {
+            this.showMessage(`${word} is not a valid word on this board`, "err");
         } else {
             this.showWord(word);
-            this.score += word.length
+            this.score += word.length;
             this.showScore();
             this.words.add(word);
-            this.showMessage(`${word} has been added!`, 'ok')
+            this.showMessage(`Added: ${word}`, "ok");
         }
     }
 
     showTimer(){
-        $('timer', this.board).text(this.secs);
+        $('.timer', this.board).text(this.secs);
     }
 
 
@@ -69,7 +69,9 @@ class BoggleGame {
         //handle 1 second time change
         this.secs -= 1;
         this.showTimer();
-
+        if (this.secs <= 10){
+            $('.timer', this.board).addClass('final-seconds')
+        }
         if (this.secs === 0){
             clearInterval(this.timer)
             await this.scoreGame();
@@ -78,7 +80,13 @@ class BoggleGame {
 
     async scoreGame(){
         $('.add-word', this.board).hide();
-        const res = await axios.post('/post_score')
+        const res = await axios.post('/post_score', {score: this.score});
+        if (res.data.brokeRecord){
+            this.showMessage(`New Record: ${this.score}`, 'ok')
+        } else {
+            this.showMessage(`Highscore: ${this.score}`, 'ok')
+        }
+
     }
 
 
