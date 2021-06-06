@@ -53,15 +53,21 @@ class FlaskTests(TestCase):
         self.assertEqual(response.json['result'], 'ok')
         response = self.client.get('/check-word?word=or')
         self.assertEqual(response.json['result'], 'ok')
+        #invalid words present on board
+        response = self.client.get('/check-word?word=htrss')
+        self.assertEqual(response.json['result'], 'not-word')
+        response = self.client.get('/check-word?word=ftpaa')
+        self.assertEqual(response.json['result'], 'not-word')
+
 
     def test_invalid_word(self):
         
         self.client.get('/')
-        response = self.client.get('/check-word?word=lengthy)
+        response = self.client.get('/check-word?word=lengthy')
         self.assertEqual(response.json['result'], 'not-on-board')
 
     def test_non_english_word(self):
         
         self.client.get('/')
-        response = self.client.get('/check-word?word=zkbgr)
+        response = self.client.get('/check-word?word=zkbgr')
         self.assertEqual(response.json['result'], 'not-word')
